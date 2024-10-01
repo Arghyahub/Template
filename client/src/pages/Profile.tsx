@@ -8,7 +8,7 @@ const Dashboard = () => {
   return (
     <Protected>
       <div className="flex flex-col gap-4 p-5">
-        <h1>Dashboard</h1>
+        <h1>Profile</h1>
         <p>Hello {name?.length >= 0 && name}</p>
         <Link to="/profile" className="text-blue-400">
           Profile

@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 const SERVER = import.meta.env.VITE_SERVER;
 
 interface formItem {
@@ -9,7 +11,8 @@ interface formItem {
 }
 
 const Auth = () => {
-  console.log(SERVER);
+  const navigate = useNavigate();
+
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement> & formItem
   ) => {
@@ -29,7 +32,10 @@ const Auth = () => {
 
     const data = await resp.json();
     console.log(data);
+    localStorage.setItem("token", data.token);
+
     // server call
+    navigate("/dashboard");
   };
   return (
     <div className="flex flex-row justify-center items-center p-5 w-screen h-screen">

@@ -13,6 +13,9 @@ const Home = () => {
       <Link to="/dashboard" className="text-blue-500">
         Dashboard
       </Link>
+      <Link to="/profile" className="text-blue-500">
+        Profile
+      </Link>
     </div>
   );
 };

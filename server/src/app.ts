@@ -4,10 +4,13 @@ import dotenv from "dotenv";
 import { connectDB } from "./db";
 import { userModel } from "./schema";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import router from "./middleware/user-middleware";
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
+const SECRET = process.env.SECRET;
 
 app.use(cors());
 app.use(express.json());
@@ -68,8 +71,41 @@ app.post("/auth/login", async (req, res) => {
     return res.status(400).json({ message: "Invalid credentials" });
   }
 
-  return res.json({ message: "Logged in" });
+  const payload = { id: user._id, email: user.email };
+
+  const token = jwt.sign(payload, SECRET);
+
+  res.json({ message: "User logged in", token });
 });
+
+// @ts-ignore
+app.post("/me", async (req, res) => {
+  const { token } = req.body;
+  if (!token) {
+    return res.status(400).json({ message: "Invalid token" });
+  }
+
+  try {
+    const payload = jwt.verify(token, SECRET);
+    const user = await userModel.findById(payload.id, {
+      name: true,
+      email: true,
+      _id: true,
+    });
+    res.json({ user });
+  } catch (err) {
+    res.status(400).json({ message: "Invalid token" });
+  }
+});
+
+// like
+app.post("/like", router, async (req, res) => {});
+
+// feed-fetch
+
+// comment
+
+// follow
 
 app.listen(PORT, () => {
   console.log("Server is running on port", PORT);
