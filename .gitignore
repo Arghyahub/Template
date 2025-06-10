@@ -2,3 +2,5 @@ node_modules
 dist
 .next
 .env
+
+move.sh  # Added so that you can customize the script as needed 
