@@ -1,4 +1,4 @@
-import { Anchor } from 'lucide-react';
+import { Anchor, UserCheck } from 'lucide-react';
 const loremTxt = "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 
 const config = {
@@ -16,6 +16,36 @@ const config = {
     longFeatures: [
         {name:"Feature 1", description: loremTxt+loremTxt, img: "/project/feat-long.jpg"},
         {name:"Feature 2", description: loremTxt+loremTxt, img: "/project/feat-long.jpg"},
+    ],
+    testimonials: [
+        {
+            name: "John Doe",
+            role: "CEO of Company",
+            icon: "/project/projectIcon.svg",
+            description: loremTxt
+        },
+        {
+            name: "Jane Smith",
+            role: "CTO of Another Company",
+            icon: "/project/projectIcon.svg",
+            description: loremTxt
+        },
+        {
+            name: "Jane Smith",
+            role: "CTO of Another Company",
+            icon: "/project/projectIcon.svg",
+            description: loremTxt
+        }
+    ],
+    faq: [
+        {
+            title: "What is this project about?",
+            description: "This project is a template for building landing pages with Next.js and Tailwind CSS. It includes features like testimonials, long and short features, and a hero section.",
+        },
+        {
+            title: "Is it accessible?",
+            description: "Yes. It adheres to the WAI-ARIA design pattern.",
+        }
     ]
 }
 

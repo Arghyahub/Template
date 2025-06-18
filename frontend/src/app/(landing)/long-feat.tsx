@@ -35,7 +35,7 @@ const LongFeat = ({ index, img, name, description }: Props) => {
         <h3 className="mb-2 font-semibold text-gray-800 text-2xl md:text-3xl">
           {name}
         </h3>
-        <p className="text-gray-600 text-base">{description}</p>
+        <p className="max-w-5/6 text-gray-600 text-base">{description}</p>
       </div>
     </div>
   );

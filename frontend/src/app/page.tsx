@@ -4,6 +4,13 @@ import config from "./config";
 import Link from "next/link";
 import ShortFeatureCard from "./(landing)/short-feat-card";
 import LongFeat from "./(landing)/long-feat";
+import CardOrCarousel from "./(landing)/card-or-carousal";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 type NavigationLink = {
   name: string;
@@ -128,18 +135,48 @@ const Landing = () => {
 
       {/* Proof */}
       <div className="flex bg-test1 w-full h-full">
-        <section className="flex flex-col items-center gap-5 my-6 w-full h-full section">
-          <h2 className="py-6 font-bold text-gray-800 text-3xl md:text-5xl">
-            Proof of Concept
+        <section className="flex flex-col items-center gap-2 my-16 w-full h-full section">
+          <h2 className="mb-4 py-6 font-bold text-gray-800 text-3xl md:text-5xl">
+            Social Proof
           </h2>
-          <p className="text-gray-600 text-lg md:text-xl">
-            Here you can showcase testimonials, case studies, or any other proof
-            that your product works and delivers value.
-          </p>
+
+          <div className="flex flex-row justify-center items-center w-full">
+            <CardOrCarousel data={config.testimonials} />
+          </div>
         </section>
       </div>
 
       {/* FAQ */}
+      <div className="flex flex-col items-center gap-2 p-2 w-full h-full">
+        <section className="flex flex-col items-center gap-2 my-16 w-full h-full section">
+          <h2 className="mb-4 py-6 font-bold text-gray-800 text-3xl md:text-5xl">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-gray-600 text-lg md:text-xl">
+            Here are some common questions we get asked.
+          </p>
+          <div className="flex flex-col gap-4 mt-6 w-full max-w-4xl">
+            {/* Add FAQ items here */}
+            <Accordion
+              type="single"
+              collapsible
+              className="flex flex-col gap-2"
+            >
+              {config.faq.map((item, index) => (
+                <AccordionItem
+                  value={`item-${index}`}
+                  className="shadow-md px-3 py-2"
+                >
+                  <AccordionTrigger className="border-0 ring-0 focus:ring-0 text-md no-underline hover:no-underline cursor-pointer">
+                    {item.title}
+                  </AccordionTrigger>
+                  <AccordionContent>{item.description}</AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </section>
+      </div>
 
       {/* CTA */}
 
