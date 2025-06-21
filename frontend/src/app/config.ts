@@ -1,4 +1,4 @@
-import { Anchor, UserCheck } from 'lucide-react';
+import { Anchor } from 'lucide-react';
 const loremTxt = "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 
 const config = {
@@ -25,8 +25,8 @@ const config = {
             description: loremTxt
         },
         {
-            name: "Jane Smith",
-            role: "CTO of Another Company",
+            name: "Jane Derulo",
+            role: "CFO of Another Company",
             icon: "/project/projectIcon.svg",
             description: loremTxt
         },
@@ -46,7 +46,9 @@ const config = {
             title: "Is it accessible?",
             description: "Yes. It adheres to the WAI-ARIA design pattern.",
         }
-    ]
+    ],
+    cta: "Define your call to action",
+    // Didn't make config for footer, idk need to improve design
 }
 
 export default config;

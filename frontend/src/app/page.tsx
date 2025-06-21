@@ -49,7 +49,7 @@ const Landing = () => {
           </div>
 
           {/* Navigation Links */}
-          <div className="hidden sm:flex flex-row items-center gap-5 font-medium text-teal-600 text-sm md:text-base">
+          <div className="hidden sm:flex flex-row items-center gap-8 font-medium text-teal-600 text-sm md:text-base">
             {navigationLinks.map((link) => (
               <Link key={link.name} href={link.href} className="font-roboto">
                 {link.name}
@@ -164,6 +164,7 @@ const Landing = () => {
             >
               {config.faq.map((item, index) => (
                 <AccordionItem
+                  key={index}
                   value={`item-${index}`}
                   className="shadow-md px-3 py-2"
                 >
@@ -179,8 +180,39 @@ const Landing = () => {
       </div>
 
       {/* CTA */}
+      <div className="flex flex-col items-center gap-2 bg-test2 p-2 w-full h-full">
+        <section className="flex flex-col items-center gap-2 my-16 w-full h-full section">
+          <h2 className="mb-2 py-6 font-bold text-gray-800 text-3xl md:text-5xl">
+            {config.cta}
+          </h2>
+          <Link
+            href="/signup"
+            className="bg-teal-600 hover:bg-teal-700 mt-4 px-6 py-2 rounded-md text-white transition duration-300"
+          >
+            Get Started
+          </Link>
+        </section>
+      </div>
 
       {/* Footer */}
+      <div className="flex flex-col items-center gap-2 bg-test5 p-2 w-full h-full">
+        <section className="flex flex-col items-center gap-2 my-16 w-full h-full section">
+          <p className="text-white text-lg md:text-xl">
+            © {new Date().getFullYear()} {config.title}. All rights reserved.
+          </p>
+          <div className="flex flex-row flex-wrap gap-4 mt-4">
+            {navigationLinks.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className="text-teal-600 hover:underline"
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+        </section>
+      </div>
     </div>
   );
 };
