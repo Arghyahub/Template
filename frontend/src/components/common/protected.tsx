@@ -26,12 +26,7 @@ const Protected = ({ children }: Props) => {
     checkAuth();
   }, []);
 
-  return (
-    <>
-      {children}
-      {/* <Toaster richColors /> */}
-    </>
-  );
+  return <>{children}</>;
 };
 
 export default Protected;
