@@ -1,3 +1,5 @@
+import { hashSync } from "bcrypt";
+
 class Util {
   static isNotNull(data: any, allowEmpty = false) {
     if (allowEmpty) {
@@ -7,15 +9,20 @@ class Util {
     }
   }
 
-  static nullValues(data: Record<any, any>, allowEmpty = false) {
+  static nullValues(data: Record<any, any>, allowEmpty = false, pretty = true) {
     const result: string[] = [];
-    for (const key in Object.keys(data)) {
+    for (const key of Object.keys(data)) {
       const isValid = this.isNotNull(data[key], allowEmpty);
       if (!isValid) {
         result.push(key);
       }
     }
     return result;
+  }
+
+  static hashPassword(password: string): string {
+    const saltRounds = 10;
+    return hashSync(password, saltRounds);
   }
 }
 
