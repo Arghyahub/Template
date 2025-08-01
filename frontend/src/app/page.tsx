@@ -80,7 +80,7 @@ const Landing = () => {
               {config.description}
             </p>
             <Link
-              href="/signup"
+              href="/auth/signup"
               className="bg-teal-600 hover:bg-teal-700 mt-4 px-6 py-2 rounded-md text-white transition duration-300"
             >
               Get Started
@@ -186,7 +186,7 @@ const Landing = () => {
             {config.cta}
           </h2>
           <Link
-            href="/signup"
+            href="/auth/signup"
             className="bg-teal-600 hover:bg-teal-700 mt-4 px-6 py-2 rounded-md text-white transition duration-300"
           >
             Get Started

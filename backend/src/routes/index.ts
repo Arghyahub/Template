@@ -1,5 +1,5 @@
 import { Router } from "express";
-import publicRouter from "./public/public-route";
+import publicRouter from "./public/public.route";
 
 const apiRouter = Router();
 

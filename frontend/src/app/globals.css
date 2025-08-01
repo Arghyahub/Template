@@ -14,22 +14,36 @@
   border: 2px solid red;
 }
 
-@theme {
-  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --font-roboto: "Roboto", sans-serif;
- --color-test1: #F3F3F3;
- --color-test2: #d4f1f4;
- --color-test3: #75e6da;
- --color-test4: #189ab4;
- --color-test5: #05445e;
+button:disabled {
+  cursor: not-allowed;
+}
 
- --animate-fade-in: fade-in 0.5s ease-in forwards;
+button {
+  cursor: pointer;
+}
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  --font-roboto: "Roboto", sans-serif;
+  --color-test1: #f3f3f3;
+  --color-test2: #d4f1f4;
+  --color-test3: #75e6da;
+  --color-test4: #189ab4;
+  --color-test5: #05445e;
+
+  --animate-fade-in: fade-in 0.5s ease-in forwards;
 
   @keyframes fade-in {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 }
 

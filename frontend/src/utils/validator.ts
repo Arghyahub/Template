@@ -34,6 +34,13 @@ class Validator {
     return passwordRegex.test(password);
   }
 
+  static isValidName(name: string): boolean {
+    if (!name || name.length < 3 || name.length > 50) {
+      return false;
+    }
+    return true;
+  }
+
   static isValidUsername(username: string): boolean {
     // Alphanumeric characters and underscores, 3-20 characters long
     const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;

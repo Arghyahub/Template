@@ -1,11 +1,11 @@
-import env from "@/config/env";
+"use client";
 import axios from "axios";
 
 class Api {
   static instance: Api = null;
 
   static axiosInstance = axios.create({
-    baseURL: env.BASE_URL,
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
     withCredentials: true,
   });
 
@@ -78,8 +78,18 @@ class Api {
     );
   }
 
-  static async getProtected() {
-    return await this.axiosInstance.get("/protected");
+  static async get(url: string, config = {}) {
+    return Api.axiosInstance.get(url, {
+      validateStatus: () => true,
+      ...config,
+    });
+  }
+
+  static async post(url: string, data = {}, config = {}) {
+    return Api.axiosInstance.post(url, data, {
+      validateStatus: () => true,
+      ...config,
+    });
   }
 }
 

@@ -26,3 +26,4 @@ services:
 
 volumes:
   pgdata:
+# docker exec -it postgres-db env PGPASSWORD=admin psql -U admin -d learn

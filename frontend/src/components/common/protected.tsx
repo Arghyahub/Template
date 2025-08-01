@@ -1,5 +1,6 @@
 "use client";
 import useGlobalStore from "@/stores/global-store";
+import Api from "@/utils/api";
 import { redirect } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -12,7 +13,6 @@ const Protected = ({ children }: Props) => {
   const setRefreshToken = useGlobalStore((state) => state.setRefreshToken);
 
   async function checkAuth() {
-    setIsLoading(true);
     try {
     } catch (error) {
       console.error("Error checking authentication:", error);

@@ -32,13 +32,14 @@ model User {
 }
 
 model AccessRole {
-  id              Int      @id @default(autoincrement())
+  id              Int          @id @default(autoincrement())
   name            String
-  is_master       Boolean
+  is_master       Boolean      @default(dbgenerated("false"))
+  for_type        UserTypeEnum
   role            Json
-  created_at      DateTime @default(dbgenerated("now()"))
+  created_at      DateTime     @default(dbgenerated("now()"))
   updated_by      Int?
-  updated_by_user User?    @relation(fields: [updated_by], references: [id])
-  updated_at      DateTime @default(dbgenerated("now()"))
-  users           User[]   @relation("user")
+  updated_by_user User?        @relation(fields: [updated_by], references: [id])
+  updated_at      DateTime     @default(dbgenerated("now()"))
+  users           User[]       @relation("user")
 }

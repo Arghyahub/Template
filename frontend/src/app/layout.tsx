@@ -4,6 +4,7 @@ import "./globals.css";
 import config from "./config";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "next-themes";
+import "react-tooltip/dist/react-tooltip.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
