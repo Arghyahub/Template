@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Protected from "@/components/common/protected";
 import { Toaster } from "@/components/ui/sonner";
+import OfflinePage from "@/components/common/offline-page";
+import LeftSidebar from "@/components/common/left-sidebar";
+import MobileSidebar from "@/components/common/mobile-sidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,7 +38,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Protected>{children}</Protected>
+        <Protected>
+          <div className="flex flex-row w-full h-[100svh]">
+            <LeftSidebar />
+            {children}
+          </div>
+        </Protected>
+        <OfflinePage />
       </body>
     </html>
   );

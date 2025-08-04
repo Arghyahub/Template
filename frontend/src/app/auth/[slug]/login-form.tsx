@@ -96,14 +96,11 @@ const LoginForm = () => {
 
     try {
       setIsLoading(true);
-      const res = await Api.post(
-        `/public/auth/${isLogin ? "login" : "signup"}`,
-        {
-          name,
-          password,
-          email,
-        }
-      );
+      const res = await Api.post(`/auth/${isLogin ? "login" : "signup"}`, {
+        name,
+        password,
+        email,
+      });
 
       console.log("res :\n", res.data);
 

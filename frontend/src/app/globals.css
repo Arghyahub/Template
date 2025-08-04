@@ -35,14 +35,36 @@ button {
   --color-test4: #189ab4;
   --color-test5: #05445e;
 
-  --animate-fade-in: fade-in 0.5s ease-in forwards;
+  --animate-fade-in: fade-in 0.5s ease-in ease-out forwards;
+  --animate-fade-elongate: fade-elongate 0.2s ease-in forwards;
 
   @keyframes fade-in {
     0% {
       opacity: 0;
     }
+    ,
+    70% {
+      opacity: 0.9;
+    }
+    ,
     100% {
       opacity: 1;
+    }
+  }
+
+  @keyframes fade-elongate {
+    0% {
+      opacity: 0;
+      transform: scaleY(0.9);
+    }
+    ,
+    60% {
+      opacity: 0.9;
+    }
+    ,
+    100% {
+      opacity: 1;
+      transform: scaleY(1);
     }
   }
 }
@@ -63,6 +85,18 @@ button {
       font-weight: var(--font-weight-semibold);
       color: var(--color-gray-950);
     }
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
   }
 }
 

@@ -1,19 +1,43 @@
 "use client";
-import useGlobalStore from "@/stores/global-store";
+import useGlobalStore from "@/app/store/global-store";
 import Api from "@/utils/api";
-import { redirect } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { redirect, useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 import { toast } from "sonner";
+import SplashScreen from "./splash-screen";
+import useUserStore from "@/app/store/user-store";
+import User from "@/types/entities/user";
 type Props = {
   children: React.ReactNode;
 };
 
+interface fullRefreshPayload {
+  accessToken: string;
+  user: User;
+}
+
 const Protected = ({ children }: Props) => {
-  const [IsLoading, setIsLoading] = useState(true);
-  const setRefreshToken = useGlobalStore((state) => state.setRefreshToken);
+  const setAccessToken = useGlobalStore((state) => state.setAccessToken);
+  const user = useUserStore((state) => state.user);
+  const setUser = useUserStore((state) => state.setUser);
+
+  const router = useRouter();
 
   async function checkAuth() {
     try {
+      const res = await Api.get("/auth/refresh/full-data");
+      if (res.status == 200) {
+        const payload: fullRefreshPayload = res.data.payload;
+        if (payload) {
+          setAccessToken(payload.accessToken);
+          setUser(payload.user);
+        }
+      } else {
+        toast.error(
+          res.data.message || "Authentication failed. Please log in again."
+        );
+        router.replace("/auth/login");
+      }
     } catch (error) {
       console.error("Error checking authentication:", error);
       toast.error("Authentication failed. Please log in again.");
@@ -26,7 +50,7 @@ const Protected = ({ children }: Props) => {
     checkAuth();
   }, []);
 
-  return <>{children}</>;
+  return <>{user?.id ? <>{children}</> : <SplashScreen />}</>;
 };
 
 export default Protected;

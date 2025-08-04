@@ -169,8 +169,57 @@ async function login(req: Request, res: Response) {
   }
 }
 
+async function refresh(req: Request, res: Response) {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken) {
+    return Api.response({
+      res,
+      status: 401,
+      message: "Unauthorized, please log in again",
+    });
+  }
+  try {
+    const userId = Cryptr.verifyToken(refreshToken, "refresh")?.userId;
+    if (!userId) {
+      return Api.response({
+        res,
+        status: 401,
+        message: "Invalid refresh token, please log in again",
+      });
+    }
+
+    const accessToken = Cryptr.generateAccessToken(userId);
+    // const newRefreshToken = Cryptr.generateRefreshToken(userId);
+
+    // res.cookie("refreshToken", newRefreshToken, {
+    //   httpOnly: true,
+    //   secure: !Util.isDevEnv(),
+    //   sameSite: "lax",
+    //   path: "/api/auth",
+    //   maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    // });
+
+    return Api.response({
+      res,
+      status: 200,
+      message: "Authenticated successfully",
+      payload: {
+        accessToken,
+      },
+    });
+  } catch (error) {
+    return Api.response({
+      res,
+      status: 500,
+      message: "Internal Server Error",
+      error: error,
+    });
+  }
+}
+
 const AuthController = {
   signUp,
   login,
+  refresh,
 };
 export default AuthController;

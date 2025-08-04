@@ -3,7 +3,7 @@ import Image from "next/image";
 import React from "react";
 import LoginForm from "./login-form";
 import { Metadata } from "next";
-import config from "@/app/config";
+import config from "@/config/config";
 
 export const metadata: Metadata = {
   title: "Login",

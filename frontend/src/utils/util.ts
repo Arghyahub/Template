@@ -1,4 +1,4 @@
-import useGlobalStore from "@/stores/global-store";
+import useGlobalStore from "@/app/store/global-store";
 import { redirect } from "next/navigation";
 
 class Util {
@@ -10,7 +10,7 @@ class Util {
     if (this.isOnServer()) {
       return;
     }
-    useGlobalStore.getState().clearRefreshToken();
+    useGlobalStore.getState().clearAccessToken();
     redirect("/login");
   }
 

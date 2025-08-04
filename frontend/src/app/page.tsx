@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import config from "./config";
+import config from "../config/config";
 import Link from "next/link";
 import ShortFeatureCard from "./(landing)/short-feat-card";
 import LongFeat from "./(landing)/long-feat";

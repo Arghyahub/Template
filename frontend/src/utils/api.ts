@@ -49,9 +49,8 @@ class Api {
             // Mark that we have already made the refresh api call
             this.isRefreshing = true;
             try {
-              const { data } = await this.axiosInstance.post(
-                "/public/auth/refresh"
-              );
+              alert("Refreshing access token...");
+              const { data } = await this.axiosInstance.post("/auth/refresh");
               this.setAccessToken(data.accessToken);
               this.processQueue(null, data.accessToken);
             } catch (err) {

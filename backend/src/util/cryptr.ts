@@ -31,6 +31,18 @@ class Cryptr {
   ) {
     return jwt.sign({ userId }, Env.REFRESH_SECRET, { expiresIn });
   }
+
+  static verifyToken(token: string, secret: "access" | "refresh") {
+    try {
+      const secretKey =
+        secret === "access" ? Env.ACCESS_SECRET : Env.REFRESH_SECRET;
+      return jwt.verify(token, secretKey) as { userId: number };
+    } catch (error) {
+      throw new Error(
+        JSON.stringify({ message: "Error verifying token", error })
+      );
+    }
+  }
 }
 
 export default Cryptr;
