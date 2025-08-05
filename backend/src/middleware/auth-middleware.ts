@@ -1,4 +1,6 @@
 import { NextFunction, Request, Response } from "express";
+import Api from "../util/api";
+import Cryptr from "../util/cryptr";
 
 const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   // Check if the request has an authorization header
@@ -13,11 +15,18 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     res.status(401).json({ message: "Unauthorized" });
   }
 
-  // Here you would typically verify the token (e.g., using JWT)
-  // For simplicity, we will assume the token is valid
-
-  // If valid, proceed to the next middleware or route handler
-  next();
+  try {
+    const decoded = Cryptr.verifyToken(token, "access");
+    req.user = { id: decoded.userId };
+    next();
+  } catch (error) {
+    return Api.response({
+      res,
+      status: 403,
+      message: "Token Expired",
+      error: error,
+    });
+  }
 };
 
 export default authMiddleware;

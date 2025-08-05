@@ -37,6 +37,7 @@ button {
 
   --animate-fade-in: fade-in 0.5s ease-in ease-out forwards;
   --animate-fade-elongate: fade-elongate 0.2s ease-in forwards;
+  --animate-spin-slow: spin 1.3s linear infinite;
 
   @keyframes fade-in {
     0% {

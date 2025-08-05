@@ -1,5 +1,5 @@
-import { JSX, ReactNode } from "react";
-import { House } from "lucide-react";
+import { JSX } from "react";
+import { House, ScanFace, User, UserStar } from "lucide-react";
 import config from "./config";
 
 // Update this variable to the last ID used in your menu items
@@ -68,103 +68,26 @@ class MenuUtil {
       title: "Dashboard",
       icon: House,
       type: "link",
-      path: "/home/dashboard",
+      path: "/home",
     },
+    // Comment this out if you don't want to show admin menu
     {
       id: 1,
-      title: "Dashboard",
-      icon: House,
+      title: "Admin",
+      icon: UserStar,
       type: "parent",
       children: [
         {
           id: 2,
-          title: "Test",
-          icon: House,
-          path: "/home/dashboard/overview",
+          title: "Users",
+          icon: User,
+          path: "/home/admin/user",
         },
-      ],
-    },
-    {
-      id: 3,
-      title: "Dashboard",
-      icon: House,
-      type: "parent",
-      children: [
         {
-          id: 4,
-          title: "Overview",
-          icon: House,
-          path: "/home/dashboard/overview",
-        },
-      ],
-    },
-    {
-      id: 5,
-      title: "Dashboard",
-      icon: House,
-      type: "parent",
-      children: [
-        {
-          id: 6,
-          title: "Overview",
-          icon: House,
-          path: "/home/dashboard/overview",
-        },
-      ],
-    },
-    {
-      id: 7,
-      title: "Dashboard",
-      icon: House,
-      type: "parent",
-      children: [
-        {
-          id: 8,
-          title: "Overview",
-          icon: House,
-          path: "/home/dashboard/overview",
-        },
-      ],
-    },
-    {
-      id: 9,
-      title: "Dashboard",
-      icon: House,
-      type: "parent",
-      children: [
-        {
-          id: 10,
-          title: "Overview",
-          icon: House,
-          path: "/home/dashboard/overview",
-        },
-      ],
-    },
-    {
-      id: 11,
-      title: "Dashboard",
-      icon: House,
-      type: "parent",
-      children: [
-        {
-          id: 12,
-          title: "Overview",
-          icon: House,
-          path: "/home/dashboard/overview",
-        },
-      ],
-    },
-    {
-      id: 13,
-      title: "Dashboard",
-      icon: House,
-      type: "parent",
-      children: [
-        {
-          id: 14,
-          title: "Overview",
-          icon: House,
-          path: "/home/dashboard/overview",
+          id: 3,
+          title: "Role",
+          icon: ScanFace,
+          path: "/home/admin/role",
         },
       ],
     },

@@ -1,3 +1,4 @@
+import RoleEntity from "@/types/entities/role-entity";
 import { create } from "zustand";
 
 interface UserStore {
@@ -6,7 +7,7 @@ interface UserStore {
     name: string;
     email: string;
     user_type: string;
-    access_role: Record<string | number, boolean>;
+    access_role: RoleEntity;
   };
   setUser: (user: UserStore["user"]) => void;
 }

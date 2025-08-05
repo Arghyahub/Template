@@ -6,14 +6,14 @@ import React, { useEffect } from "react";
 import { toast } from "sonner";
 import SplashScreen from "./splash-screen";
 import useUserStore from "@/app/store/user-store";
-import User from "@/types/entities/user";
+import UserEntity from "@/types/entities/user-entity";
 type Props = {
   children: React.ReactNode;
 };
 
 interface fullRefreshPayload {
   accessToken: string;
-  user: User;
+  user: UserEntity;
 }
 
 const Protected = ({ children }: Props) => {

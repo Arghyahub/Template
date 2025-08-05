@@ -16,24 +16,22 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { usePathname } from "next/navigation";
 
 type Props = {};
-
-function OnMobile() {
-  if (Util.isOnServer()) return false;
-  return window.innerWidth < 768;
-}
 
 type MenuListState = MenuItem & { is_open?: boolean };
 
 const MobileSidebar = (props: Props) => {
-  const [IsSidebarOpen, setIsSidebarOpen] = useState(OnMobile() ? false : true);
+  const [IsSidebarOpen, setIsSidebarOpen] = useState(false);
   const user = useUserStore((state) => state.user);
   const [MenuListState, setMenuListState] = useState<MenuListState[]>([]);
 
+  const pathname = usePathname();
+
   useEffect(() => {
     if (!user.id) return setMenuListState([]);
-    const newMenuList = MenuList.getMenuItems(user.access_role);
+    const newMenuList = MenuList.getMenuItems(user.access_role.role);
     setMenuListState(newMenuList);
   }, [user]);
 
@@ -92,7 +90,10 @@ const MobileSidebar = (props: Props) => {
                         data-tooltip-id={`${menu.id}`}
                         data-tooltip-content={menu.title}
                         className={cn(
-                          "flex flex-row items-center gap-2 px-3 py-3 hover:bg-teal-100 rounded-md hover:text-teal-800 transition duration-400 cursor-pointer"
+                          "flex flex-row items-center gap-2 hover:bg-teal-100 hover:text-teal-800 px-3 py-3 rounded-md  transition duration-400 cursor-pointer",
+                          pathname === menu.path
+                            ? "bg-teal-100 text-teal-800 shadow-md"
+                            : ""
                         )}
                       >
                         <menu.icon className="size-5" />
@@ -132,7 +133,10 @@ const MobileSidebar = (props: Props) => {
                           data-tooltip-id={`${child.id}`}
                           data-tooltip-content={child.title}
                           className={cn(
-                            "flex flex-row items-center gap-2 px-5 py-3 pl-11 hover:bg-cyan-100 rounded-md hover:text-cyan-800 transition duration-400 cursor-pointer"
+                            "flex flex-row items-center gap-2 px-5 py-3 pl-11 hover:bg-cyan-100 rounded-md hover:text-cyan-800 transition duration-400 cursor-pointer",
+                            pathname === child.path
+                              ? "bg-teal-100 text-teal-800 shadow-md"
+                              : ""
                           )}
                         >
                           {/* {!IsSidebarOpen && <child.icon className="size-5" />} */}

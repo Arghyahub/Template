@@ -7,6 +7,7 @@ import Util from "@/utils/util";
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import { Tooltip } from "react-tooltip";
 
@@ -24,9 +25,11 @@ const LeftSidebar = (props: Props) => {
   const user = useUserStore((state) => state.user);
   const [MenuListState, setMenuListState] = useState<MenuListState[]>([]);
 
+  const pathname = usePathname();
+
   useEffect(() => {
     if (!user.id) return setMenuListState([]);
-    const newMenuList = MenuList.getMenuItems(user.access_role);
+    const newMenuList = MenuList.getMenuItems(user.access_role.role);
     setMenuListState(newMenuList);
   }, [user]);
 
@@ -94,7 +97,10 @@ const LeftSidebar = (props: Props) => {
                   data-tooltip-content={menu.title}
                   className={cn(
                     "flex flex-row items-center gap-2 hover:bg-teal-100 rounded-md hover:text-teal-800 transition duration-400 cursor-pointer",
-                    IsSidebarOpen ? "px-5 py-4" : "justify-center py-2"
+                    IsSidebarOpen ? "px-5 py-4" : "justify-center py-2",
+                    pathname === menu.path
+                      ? "bg-teal-100 text-teal-800 shadow-md"
+                      : ""
                   )}
                 >
                   <menu.icon className="size-5" />
@@ -138,7 +144,10 @@ const LeftSidebar = (props: Props) => {
                     data-tooltip-content={child.title}
                     className={cn(
                       "flex flex-row items-center gap-2 hover:bg-cyan-100 rounded-md hover:text-cyan-800 transition duration-400 cursor-pointer",
-                      IsSidebarOpen ? "px-5 py-4 pl-12" : "justify-center py-2"
+                      IsSidebarOpen ? "px-5 py-4 pl-12" : "justify-center py-2",
+                      pathname === child.path
+                        ? "bg-teal-100 text-teal-800 shadow-md"
+                        : ""
                     )}
                   >
                     {!IsSidebarOpen && <child.icon className="size-5" />}

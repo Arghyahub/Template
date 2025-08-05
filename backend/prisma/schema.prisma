@@ -38,8 +38,8 @@ model AccessRole {
   for_type        UserTypeEnum
   role            Json
   created_at      DateTime     @default(dbgenerated("now()"))
-  updated_by      Int?
-  updated_by_user User?        @relation(fields: [updated_by], references: [id])
+  updated_by_id   Int?
+  updated_by_user User?        @relation(fields: [updated_by_id], references: [id])
   updated_at      DateTime     @default(dbgenerated("now()"))
   users           User[]       @relation("user")
 }

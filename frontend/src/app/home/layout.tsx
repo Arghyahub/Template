@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import OfflinePage from "@/components/common/offline-page";
 import LeftSidebar from "@/components/common/left-sidebar";
 import MobileSidebar from "@/components/common/mobile-sidebar";
+import Sidebar from "@/components/common/sidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,8 +41,10 @@ export default function RootLayout({
       >
         <Protected>
           <div className="flex flex-row w-full h-[100svh]">
-            <LeftSidebar />
-            {children}
+            <Sidebar />
+            <div className="flex flex-col p-6 w-full h-full overflow-y-auto">
+              {children}
+            </div>
           </div>
         </Protected>
         <OfflinePage />
