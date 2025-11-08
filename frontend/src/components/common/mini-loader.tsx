@@ -3,11 +3,12 @@ import React from "react";
 
 type Props = {
   className?: string;
+  size?: string;
 };
 
 const MiniLoader = ({ className = "" }: Props) => {
   return (
-    <div className="w-9" role="status">
+    <>
       <svg
         aria-hidden="true"
         className={cn(
@@ -28,7 +29,7 @@ const MiniLoader = ({ className = "" }: Props) => {
         />
       </svg>
       <span className="sr-only">Loading...</span>
-    </div>
+    </>
   );
 };
 

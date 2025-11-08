@@ -1,5 +1,6 @@
 import useGlobalStore from "@/app/store/global-store";
 import { redirect } from "next/navigation";
+import Api from "./api";
 
 class Util {
   static isOnServer() {
@@ -7,11 +8,13 @@ class Util {
   }
 
   static logout() {
-    if (this.isOnServer()) {
+    if (Util.isOnServer()) {
       return;
     }
     useGlobalStore.getState().clearAccessToken();
-    redirect("/login");
+    Api.setAccessToken("");
+    Api.get("/auth/logout");
+    redirect("/auth/login");
   }
 
   static isNotNull(data: any, allowEmpty = false) {

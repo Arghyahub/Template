@@ -6,7 +6,11 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   // Check if the request has an authorization header
   const authHeader = req.headers.authorization;
   if (!authHeader) {
-    res.status(401).json({ message: "Unauthorized" });
+    return Api.response({
+      res,
+      status: 401,
+      message: "Unauthorized",
+    });
   }
 
   // Extract the token from the header
@@ -15,9 +19,12 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     res.status(401).json({ message: "Unauthorized" });
   }
 
+  // console.log("Token:", token);
+
   try {
     const decoded = Cryptr.verifyToken(token, "access");
-    req.user = { id: decoded.userId };
+    // console.log("decoded",decoded)
+    req.user = { id: decoded.userId, user_type: decoded.user_type };
     next();
   } catch (error) {
     return Api.response({

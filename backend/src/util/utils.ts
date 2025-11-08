@@ -1,6 +1,7 @@
 import { hashSync } from "bcrypt";
 import Env from "../config/env";
 
+// Core utils only
 class Util {
   static isNotNull(data: any, allowEmpty = false) {
     if (allowEmpty) {
@@ -53,6 +54,25 @@ class Util {
 
   static isDevEnv(): boolean {
     return ["future", "staging", "development"].includes(Env.DEV_ENV);
+  }
+
+  static buildNestedObjectFromString(
+    str: string,
+    value?: any
+  ): Record<any, any> {
+    const keys = str.split(".");
+    let obj = {};
+    let ref = obj;
+
+    keys.forEach((key, idx) => {
+      if (idx == keys.length - 1 && this.isNotNull(value)) ref[key] = value;
+      else ref[key] = {};
+      ref = ref[key];
+    });
+
+    if (value) ref = value;
+
+    return obj;
   }
 }
 

@@ -8,6 +8,6 @@ const apiRouter = Router();
 
 apiRouter.use("/public", publicRouter);
 apiRouter.use("/auth", authRouter);
-apiRouter.use("/admin", adminRouter);
+apiRouter.use("/admin",authMiddleware, adminRouter);
 
 export default apiRouter;

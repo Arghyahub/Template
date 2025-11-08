@@ -26,18 +26,18 @@ const AdvInput = ({
   className = "",
   onChange,
   placeholder,
-  type,
+  type = "text",
   value,
   error,
   name,
   id,
   SuffixIcon,
-  maxLength = 500,
+  maxLength = 250,
 }: Props) => {
   return (
     <div className={"flex flex-col gap-1"}>
-      <div className="flex flex-row h-3.5">
-        {label && <label className="font-medium">{label}</label>}
+      <div className="flex flex-row min-h-4">
+        {label && <label className="font-medium text-md">{label}</label>}
         {error && error !== "" && (
           <>
             <Info
@@ -50,7 +50,7 @@ const AdvInput = ({
               style={{
                 color: "white",
                 background: "red",
-                fontSize: "0.7rem",
+                fontSize: "0.9rem",
                 padding: "0.2rem 0.4rem",
                 maxWidth: "200px",
               }}
@@ -68,7 +68,7 @@ const AdvInput = ({
           id={id}
           maxLength={maxLength}
           className={cn(
-            "p-2 border rounded",
+            "p-2 border border-slate-300 rounded w-full",
             { "border-r-0 rounded-r-none": !!SuffixIcon },
             className
           )}

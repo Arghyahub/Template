@@ -28,8 +28,9 @@ const Protected = ({ children }: Props) => {
       const res = await Api.get("/auth/refresh/full-data");
       if (res.status == 200) {
         const payload: fullRefreshPayload = res.data.payload;
-        if (payload) {
+        if (payload && payload.user) {
           setAccessToken(payload.accessToken);
+          Api.setAccessToken(payload.accessToken);
           setUser(payload.user);
         }
       } else {
@@ -41,7 +42,7 @@ const Protected = ({ children }: Props) => {
     } catch (error) {
       console.error("Error checking authentication:", error);
       toast.error("Authentication failed. Please log in again.");
-      redirect("/login");
+      redirect("/auth/login");
     }
   }
 

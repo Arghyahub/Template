@@ -4,12 +4,26 @@ import config from "@/config/config";
 import MenuList, { MenuItem } from "@/config/menu-list";
 import { cn } from "@/lib/utils";
 import Util from "@/utils/util";
-import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  CircleUser,
+  EllipsisVertical,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import { Tooltip } from "react-tooltip";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type Props = {};
 
@@ -46,7 +60,7 @@ const LeftSidebar = (props: Props) => {
   return (
     <div
       className={cn(
-        "flex flex-col items-center gap-4 px-3 py-2 border-r-2  h-full",
+        "flex flex-col items-center gap-4 px-3 py-2 border-r-2 h-full",
         IsSidebarOpen ? "w-[250px]" : "w-[70px]"
       )}
     >
@@ -86,7 +100,7 @@ const LeftSidebar = (props: Props) => {
         </button>
       </div>
 
-      <div className="flex flex-col gap-2 pb-4 w-full h-full overflow-y-scroll no-scrollbar">
+      <div className="flex flex-col gap-2 pb-2 w-full h-full overflow-y-scroll no-scrollbar">
         {MenuListState.map((menu) => (
           <div key={menu.id} className="flex flex-col gap-2 w-full">
             {menu.type === "link" ? (
@@ -120,7 +134,7 @@ const LeftSidebar = (props: Props) => {
                     );
                   }}
                   className={cn(
-                    "flex flex-row items-center hover:bg-teal-100  rounded-md hover:text-teal-800 transition duration-400 cursor-pointer",
+                    "flex flex-row items-center hover:bg-teal-100 rounded-md hover:text-teal-800 transition duration-400 cursor-pointer",
                     IsSidebarOpen ? "px-5 py-4 gap-2" : "justify-center py-2"
                   )}
                 >
@@ -171,11 +185,44 @@ const LeftSidebar = (props: Props) => {
             background: "teal",
             fontSize: "0.7rem",
             padding: "0.2rem 0.4rem",
+            zIndex: 1,
             maxWidth: "200px",
             ...(!IsSidebarOpen ? {} : { display: "none" }),
           }}
         />
       ))}
+
+      <div
+        className={cn(
+          "flex flex-row items-center gap-2 mb-2 px-3 py-2 border border-slate-500 rounded-md w-full",
+          { "p-1 justify-center": !IsSidebarOpen }
+        )}
+      >
+        {IsSidebarOpen && (
+          <>
+            <CircleUser />
+            <div className="flex flex-col mr-auto">
+              <p className="text-sm">{user?.name}</p>
+              <p className="text-xs">{user?.email}</p>
+            </div>
+          </>
+        )}
+        <DropdownMenu>
+          <DropdownMenuTrigger className="focus:border-0focus:ring-0">
+            {IsSidebarOpen ? (
+              <EllipsisVertical className="size-5" />
+            ) : (
+              <CircleUser className="size-5" />
+            )}
+            {/* EllipsisVertical className="size-5" /> */}
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuItem onClick={Util.logout}>Logout</DropdownMenuItem>
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+            {/* <DropdownMenuItem>Profile</DropdownMenuItem> */}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </div>
   );
 };

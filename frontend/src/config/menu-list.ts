@@ -1,30 +1,36 @@
 import { JSX } from "react";
 import { House, ScanFace, User, UserStar } from "lucide-react";
 import config from "./config";
+import { RoleEntity } from "@/types/entities/role-entity";
 
 // Update this variable to the last ID used in your menu items
-const lastId = 0 as const;
+const lastId = 3 as const;
 
-export type MenuItem =
-  | {
-      type: "parent";
-      title: string;
-      icon: JSX.ElementType;
-      id: number;
-      children: {
-        title: string;
-        id: number;
-        icon: JSX.ElementType;
-        path: string;
-      }[];
-    }
-  | {
-      type: "link";
-      title: string;
-      icon: JSX.ElementType;
-      id: number;
-      path: string;
-    };
+export type ParentMenuItem = {
+  type: "parent"; // Only used to show is menu, no real use
+  title: string;
+  icon: JSX.ElementType;
+  id: number;
+  children: {
+    // Holds actual use
+    title: string;
+    id: number;
+    icon: JSX.ElementType;
+    path: string;
+    access: string[];
+  }[];
+};
+
+export type LinkMenuItem = {
+  type: "link";
+  title: string;
+  icon: JSX.ElementType;
+  id: number;
+  path: string;
+  access: string[];
+};
+
+export type MenuItem = ParentMenuItem | LinkMenuItem;
 
 class MenuUtil {
   // This will decide whether to enable role-based access or not
@@ -47,19 +53,51 @@ class MenuUtil {
     }
   }
 
-  static getMenuItems(access_role: Record<string, boolean>): MenuItem[] {
+  static getMenuItems(access_role: RoleEntity): MenuItem[] {
     if (!this.role_access_enabled) {
       return this.MenuItems;
     }
     const newMenuList = this.MenuItems.filter((menu) => {
-      if (access_role?.[menu.id] == false) return false;
+      if (!access_role?.[menu.id]?.access && menu.type == "link") return false;
       if (menu.type == "link") return true;
       menu.children = menu.children.filter((child) => {
-        return access_role?.[child.id] !== false;
+        return access_role?.[child.id]?.access;
       });
       return menu.children.length > 0;
     });
     return newMenuList;
+  }
+
+  static getSelectables(menuItems = MenuUtil.MenuItems) {
+    return menuItems.map((menu) => {
+      if (menu.type == "link") {
+        return {
+          id: menu.id,
+          type: menu.type,
+          label: menu.title,
+          permissions: menu.access.map((acc) => ({
+            label: acc,
+            isChecked: false,
+          })),
+        };
+      } else {
+        const children = menu.children.map((child) => ({
+          id: child.id,
+          label: child.title,
+          permissions: child.access.map((acc) => ({
+            label: acc,
+            isChecked: false,
+          })),
+        }));
+
+        return {
+          id: menu.id,
+          type: menu.type,
+          label: menu.title,
+          children: children,
+        };
+      }
+    });
   }
 
   static MenuItems: MenuItem[] = [
@@ -69,11 +107,12 @@ class MenuUtil {
       icon: House,
       type: "link",
       path: "/home",
+      access: ["access", "super_admin"],
     },
-    // Comment this out if you don't want to show admin menu
+    // Super Admin is Number 1.
     {
       id: 1,
-      title: "Admin",
+      title: "Super Admin",
       icon: UserStar,
       type: "parent",
       children: [
@@ -81,17 +120,19 @@ class MenuUtil {
           id: 2,
           title: "Users",
           icon: User,
-          path: "/home/admin/user",
+          path: "/home/super-admin/user",
+          access: ["access"],
         },
         {
           id: 3,
           title: "Role",
           icon: ScanFace,
-          path: "/home/admin/role",
+          path: "/home/super-admin/role",
+          access: ["access", "add", "edit"],
         },
       ],
     },
-  ];
+  ] as const;
 }
 
 MenuUtil.validateUniqueIds();

@@ -6,6 +6,7 @@ import OfflinePage from "@/components/common/offline-page";
 import LeftSidebar from "@/components/common/left-sidebar";
 import MobileSidebar from "@/components/common/mobile-sidebar";
 import Sidebar from "@/components/common/sidebar";
+import SWRegistrar from "@/components/common/sw-registrar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,6 +49,7 @@ export default function RootLayout({
           </div>
         </Protected>
         <OfflinePage />
+        <SWRegistrar />
       </body>
     </html>
   );

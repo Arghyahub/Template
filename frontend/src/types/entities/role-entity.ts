@@ -1,22 +1,24 @@
-import { UserTypeEntity } from "./user-entity";
+import UserEntity, { UserTypeEntity } from "./user-entity";
 
-class RoleEntity {
+export type RoleRowType = { access: boolean } & Record<string, boolean>;
+
+export type RoleEntity = Record<number, RoleRowType>;
+
+class AccessRoleEntity {
   id: number;
   name: string;
-  description: string;
   is_master: boolean;
   for_type: UserTypeEntity;
-  role: Record<string, any>;
+  role: RoleEntity;
   created_at?: Date;
   updated_by_id: string;
-  updated_by_user?: UserTypeEntity;
+  updated_by_user?: UserEntity;
   updated_at?: Date;
-  users: string[];
+  users?: string[];
 
   constructor() {
     this.id = null;
     this.name = "";
-    this.description = "";
     this.is_master = true;
     this.for_type = "employee";
     this.role = {};
@@ -28,4 +30,4 @@ class RoleEntity {
   }
 }
 
-export default RoleEntity;
+export default AccessRoleEntity;

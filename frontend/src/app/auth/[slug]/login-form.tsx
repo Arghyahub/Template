@@ -180,7 +180,8 @@ const LoginForm = () => {
           disabled={IsLoading}
           className="flex justify-center items-center bg-teal-600 hover:bg-teal-700 mt-4 p-2 rounded text-white transition duration-300"
         >
-          {IsLoading ? <MiniLoader /> : <>{isLogin ? "Login" : "Sign Up"}</>}
+          {/* {IsLoading ? <MiniLoader /> : <>{isLogin ? "Login" : "Sign Up"}</>} */}
+          {IsLoading ? <MiniLoader /> : <>{isLogin ? "Login" : "Signup"}</>}
         </button>
       </form>
 

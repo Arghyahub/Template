@@ -5,7 +5,7 @@ class Api {
   static instance: Api = null;
 
   static axiosInstance = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
+    baseURL: process.env.NEXT_PUBLIC_API_URL + "/api",
     withCredentials: true,
   });
 
@@ -32,9 +32,17 @@ class Api {
   static initInterceptor() {
     this.axiosInstance.interceptors.response.use(
       // on fulfilled
-      (response) => response,
+      (response) => {
+        if (response.status == 401) {
+          Api.setAccessToken("");
+          window.location.href = "/auth/login";
+          return response;
+        }
+        return response;
+      },
       // on Error
       async (error) => {
+        console.log("Error: ");
         // Save the orignal request, url, header etc
         const originalRequest = error.config;
 
@@ -49,12 +57,18 @@ class Api {
             // Mark that we have already made the refresh api call
             this.isRefreshing = true;
             try {
-              alert("Refreshing access token...");
-              const { data } = await this.axiosInstance.post("/auth/refresh");
-              this.setAccessToken(data.accessToken);
-              this.processQueue(null, data.accessToken);
+              console.log("Refreshing access token...");
+              const res = await this.axiosInstance.get("/auth/refresh");
+              if (res.status == 200 && res.data?.payload?.accessToken) {
+                const accessToken = res.data?.payload?.accessToken;
+                this.setAccessToken(accessToken);
+                this.processQueue(null, accessToken);
+              } else {
+                throw new Error("Failed to refresh token");
+              }
             } catch (err) {
               this.processQueue(err, null);
+              window.location.href = "/login";
               return Promise.reject(err);
             } finally {
               this.isRefreshing = false;
@@ -77,16 +91,25 @@ class Api {
     );
   }
 
-  static async get(url: string, config = {}) {
+  static async get(url: string, query = {}, config = {}) {
+    let params = {};
+    const queryKeys = Object.keys(query);
+    if (queryKeys.length > 0) {
+      for (const key of queryKeys) {
+        params[key] = JSON.stringify(query[key]);
+      }
+    }
+
     return Api.axiosInstance.get(url, {
-      validateStatus: () => true,
+      params,
+      validateStatus: (status) => status !== 403,
       ...config,
     });
   }
 
   static async post(url: string, data = {}, config = {}) {
     return Api.axiosInstance.post(url, data, {
-      validateStatus: () => true,
+      validateStatus: (status) => status !== 403,
       ...config,
     });
   }
