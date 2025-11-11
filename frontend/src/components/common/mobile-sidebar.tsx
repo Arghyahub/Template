@@ -1,10 +1,15 @@
 "use client";
-import useUserStore from "@/app/store/user-store";
+import useUserStore from "@/store/user-store";
 import config from "@/config/config";
 import MenuList, { MenuItem } from "@/config/menu-list";
 import { cn } from "@/lib/utils";
 import Util from "@/utils/util";
-import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ChevronDown,
+  CircleUser,
+  EllipsisVertical,
+  ChevronRight,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
@@ -16,7 +21,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type Props = {};
 
@@ -28,10 +41,11 @@ const MobileSidebar = (props: Props) => {
   const [MenuListState, setMenuListState] = useState<MenuListState[]>([]);
 
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     if (!user.id) return setMenuListState([]);
-    const newMenuList = MenuList.getMenuItems(user.access_role.role);
+    const newMenuList = MenuList.getMenuItems(user.access_role.role, pathname);
     setMenuListState(newMenuList);
   }, [user]);
 
@@ -54,11 +68,11 @@ const MobileSidebar = (props: Props) => {
           </SheetHeader>
           <div
             className={cn(
-              "flex flex-col items-center gap-4 px-2 pr-2 pl-3 w-[220px]  h-full"
+              "flex flex-col items-center gap-4 px-2 pr-2 pl-3 w-[220px] h-full"
             )}
           >
             <div
-              className={cn("flex flex-row items-center justify-center w-full")}
+              className={cn("flex flex-row justify-center items-center w-full")}
             >
               {/* <div className="w-1/3"></div> */}
               <div
@@ -90,7 +104,7 @@ const MobileSidebar = (props: Props) => {
                         data-tooltip-id={`${menu.id}`}
                         data-tooltip-content={menu.title}
                         className={cn(
-                          "flex flex-row items-center gap-2 hover:bg-teal-100 hover:text-teal-800 px-3 py-3 rounded-md  transition duration-400 cursor-pointer",
+                          "flex flex-row items-center gap-2 hover:bg-teal-100 px-3 py-3 rounded-md hover:text-teal-800 transition duration-400 cursor-pointer",
                           pathname === menu.path
                             ? "bg-teal-100 text-teal-800 shadow-md"
                             : ""
@@ -115,7 +129,7 @@ const MobileSidebar = (props: Props) => {
                           );
                         }}
                         className={cn(
-                          "flex flex-row px-3 py-[14px] gap-2 items-center hover:bg-teal-100  rounded-md hover:text-teal-800 transition duration-400 cursor-pointer"
+                          "flex flex-row items-center gap-2 hover:bg-teal-100 px-3 py-[14px] rounded-md hover:text-teal-800 transition duration-400 cursor-pointer"
                         )}
                       >
                         <menu.icon className="size-5" />
@@ -133,7 +147,7 @@ const MobileSidebar = (props: Props) => {
                           data-tooltip-id={`${child.id}`}
                           data-tooltip-content={child.title}
                           className={cn(
-                            "flex flex-row items-center gap-2 px-5 py-3 pl-11 hover:bg-cyan-100 rounded-md hover:text-cyan-800 transition duration-400 cursor-pointer",
+                            "flex flex-row items-center gap-2 hover:bg-cyan-100 px-5 py-3 pl-11 rounded-md hover:text-cyan-800 transition duration-400 cursor-pointer",
                             pathname === child.path
                               ? "bg-teal-100 text-teal-800 shadow-md"
                               : ""
@@ -148,6 +162,43 @@ const MobileSidebar = (props: Props) => {
                   )}
                 </div>
               ))}
+            </div>
+            <div
+              className={cn(
+                "flex flex-row items-center gap-2 mb-2 px-3 py-2 border border-slate-500 rounded-md w-full",
+                { "p-1 justify-center": !IsSidebarOpen }
+              )}
+            >
+              {IsSidebarOpen && (
+                <>
+                  <CircleUser />
+                  <div className="flex flex-col mr-auto">
+                    <p className="text-sm">{user?.name}</p>
+                    <p className="text-xs">{user?.email}</p>
+                  </div>
+                </>
+              )}
+              <DropdownMenu>
+                <DropdownMenuTrigger className="focus:border-0focus:ring-0">
+                  {IsSidebarOpen ? (
+                    <EllipsisVertical className="size-5" />
+                  ) : (
+                    <CircleUser className="size-5" />
+                  )}
+                  {/* EllipsisVertical className="size-5" /> */}
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start">
+                  <DropdownMenuItem onClick={Util.logout}>
+                    Logout
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => router.push("/home/profile")}
+                  >
+                    Profile
+                  </DropdownMenuItem>
+                  {/* <DropdownMenuItem>Profile</DropdownMenuItem> */}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </SheetContent>

@@ -1,4 +1,4 @@
-import useGlobalStore from "@/app/store/global-store";
+import useGlobalStore from "@/store/global-store";
 import { redirect } from "next/navigation";
 import Api from "./api";
 

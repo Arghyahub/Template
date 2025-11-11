@@ -1,5 +1,5 @@
 "use client";
-import useUserStore from "@/app/store/user-store";
+import useUserStore from "@/store/user-store";
 import AdvInput from "@/components/common/adv-input";
 import Loader from "@/components/common/loader";
 import MiniLoader from "@/components/common/mini-loader";

@@ -1,5 +1,5 @@
 "use client";
-import useUserStore from "@/app/store/user-store";
+import useUserStore from "@/store/user-store";
 import config from "@/config/config";
 import MenuList, { MenuItem } from "@/config/menu-list";
 import { cn } from "@/lib/utils";
@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import { Tooltip } from "react-tooltip";
 import {
@@ -24,6 +24,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import usePeristStore from "@/store/persist-store";
 
 type Props = {};
 
@@ -35,17 +36,22 @@ function OnMobile() {
 type MenuListState = MenuItem & { is_open?: boolean };
 
 const LeftSidebar = (props: Props) => {
-  const [IsSidebarOpen, setIsSidebarOpen] = useState(OnMobile() ? false : true);
+  const IsSidebarOpen = usePeristStore(
+    (state) => state.isLeftSidebarOpen ?? !OnMobile()
+  );
+  const setIsSidebarOpen = usePeristStore((state) => state.setLeftSidebarOpen);
   const user = useUserStore((state) => state.user);
   const [MenuListState, setMenuListState] = useState<MenuListState[]>([]);
 
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     if (!user.id) return setMenuListState([]);
-    const newMenuList = MenuList.getMenuItems(user.access_role.role);
+    const newMenuList = MenuList.getMenuItems(user.access_role.role, pathname);
+    console.log("Menu List:", newMenuList);
     setMenuListState(newMenuList);
-  }, [user]);
+  }, [user, pathname]);
 
   const tooltipIds = useMemo(() => {
     return MenuListState.reduce<string[]>((acc, menu) => {
@@ -90,7 +96,7 @@ const LeftSidebar = (props: Props) => {
         </div>
 
         <button
-          onClick={() => setIsSidebarOpen((prev) => !prev)}
+          onClick={() => setIsSidebarOpen(!IsSidebarOpen)}
           className={cn(
             "bg-teal-500 hover:bg-teal-600 p-1 rounded-full text-white text-center transition cursor-pointer",
             IsSidebarOpen ? "ml-auto" : "mt-4"
@@ -218,7 +224,9 @@ const LeftSidebar = (props: Props) => {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start">
             <DropdownMenuItem onClick={Util.logout}>Logout</DropdownMenuItem>
-            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push("/home/profile")}>
+              Profile
+            </DropdownMenuItem>
             {/* <DropdownMenuItem>Profile</DropdownMenuItem> */}
           </DropdownMenuContent>
         </DropdownMenu>

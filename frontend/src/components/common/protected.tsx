@@ -1,11 +1,11 @@
 "use client";
-import useGlobalStore from "@/app/store/global-store";
+import useGlobalStore from "@/store/global-store";
 import Api from "@/utils/api";
 import { redirect, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { toast } from "sonner";
 import SplashScreen from "./splash-screen";
-import useUserStore from "@/app/store/user-store";
+import useUserStore from "@/store/user-store";
 import UserEntity from "@/types/entities/user-entity";
 type Props = {
   children: React.ReactNode;

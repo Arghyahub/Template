@@ -1,5 +1,5 @@
 "use client";
-import useUserStore from "@/app/store/user-store";
+import useUserStore from "@/store/user-store";
 import VariantBtn from "@/components/common/varitant-btn";
 import MRTable, { ActionsMenuType } from "@/components/table/MRTable";
 import useTableStateManager from "@/components/table/TableStateManagerHook";

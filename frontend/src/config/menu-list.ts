@@ -53,7 +53,10 @@ class MenuUtil {
     }
   }
 
-  static getMenuItems(access_role: RoleEntity): MenuItem[] {
+  static getMenuItems(
+    access_role: RoleEntity,
+    currentPath?: string
+  ): (MenuItem & { is_open?: boolean })[] {
     if (!this.role_access_enabled) {
       return this.MenuItems;
     }
@@ -64,7 +67,17 @@ class MenuUtil {
         return access_role?.[child.id]?.access;
       });
       return menu.children.length > 0;
+    }) as (MenuItem & { is_open?: boolean })[];
+
+    const parent = newMenuList.find((menu) => {
+      if (menu.type == "link") return false;
+      return menu.children.some((child) => child.path === currentPath);
     });
+
+    if (parent) {
+      parent.is_open = true;
+    }
+
     return newMenuList;
   }
 

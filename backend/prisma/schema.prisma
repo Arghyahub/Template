@@ -36,10 +36,8 @@ model User {
   access_role_id Int
   // status              UserStatus          @default(in_review)
 
-  access_role          AccessRole          @relation(fields: [access_role_id], references: [id], name: "user")
+  access_role          AccessRole   @relation(fields: [access_role_id], references: [id], name: "user")
   updated_access_roles AccessRole[]
-  user_board_relations UserBoardRelation[]
-  created_by_projects  Project[]
 }
 
 model AccessRole {
@@ -53,41 +51,4 @@ model AccessRole {
   updated_by_user User?        @relation(fields: [updated_by_id], references: [id])
   updated_at      DateTime     @default(dbgenerated("now()"))
   users           User[]       @relation("user")
-}
-
-enum BoardTypeEnum {
-  public
-  private
-}
-
-model Board {
-  id          Int           @id @default(autoincrement())
-  created_at  DateTime      @default(dbgenerated("now()"))
-  updated_at  DateTime      @default(dbgenerated("now()"))
-  title       String
-  description String?
-  type        BoardTypeEnum @default(private)
-  project_id  Int
-
-  user_board_relations UserBoardRelation[]
-  project              Project             @relation(fields: [project_id], references: [id])
-}
-
-model UserBoardRelation {
-  id       Int   @id @default(autoincrement())
-  user_id  Int
-  board_id Int
-  user     User  @relation(fields: [user_id], references: [id])
-  board    Board @relation(fields: [board_id], references: [id])
-}
-
-model Project {
-  id            Int      @id @default(autoincrement())
-  name          String
-  created_at    DateTime @default(dbgenerated("now()"))
-  updated_at    DateTime @default(dbgenerated("now()"))
-  created_by_id Int
-  created_by    User     @relation(fields: [created_by_id], references: [id])
-
-  boards Board[]
 }

@@ -71,7 +71,7 @@ async function seed() {
         0: { access: true, super_admin: true },
         1: { access: true },
         2: { access: true },
-        3: { access: true },
+        3: { access: true, add: true, edit: true },
       }
     );
 

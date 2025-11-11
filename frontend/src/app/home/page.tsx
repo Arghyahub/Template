@@ -4,7 +4,7 @@ import Api from "@/utils/api";
 import { redirect } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
-import useUserStore from "../store/user-store";
+import useUserStore from "../../store/user-store";
 import Util from "@/utils/util";
 
 type Props = {};
