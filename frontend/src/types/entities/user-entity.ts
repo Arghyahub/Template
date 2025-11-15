@@ -1,6 +1,6 @@
 import RoleEntity from "./role-entity";
 
-export type UserTypeEntity = "admin" | "owner" | "employee";
+export type UserTypeEntity = "admin" | "owner" | "employee" | "super_admin";
 
 class UserEntity {
   id: number;

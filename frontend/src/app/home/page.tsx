@@ -12,10 +12,10 @@ type Props = {};
 // Page 0
 const page = (props: Props) => {
   const User = useUserStore((state) => state.user);
-  const Role = User.access_role.role[0];
+  const permission = useUserStore((state) => state.getRolePermissions(0));
 
   useEffect(() => {
-    if (!Role?.access) {
+    if (!permission?.access) {
       Util.logout();
       return;
     }
@@ -28,13 +28,13 @@ const page = (props: Props) => {
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-3xl">Dashboard</h1>
-      {Role?.super_admin && (
+      {permission?.super_admin && (
         <p>If you are super admin and you have access then you can see it</p>
       )}
-      {Role?.manager && (
+      {permission?.manager && (
         <p>If you are manager and you have access then you can see it</p>
       )}
-      {Role?.employee && (
+      {permission?.employee && (
         <p>If you are employee and you have access then you can see it</p>
       )}
     </div>

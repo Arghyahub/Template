@@ -6,7 +6,7 @@ type Props = {
   onClick?: () => any;
   classname?: string;
   isLoading?: boolean;
-  text: string;
+  label: string;
 };
 
 const VariantBtn = ({
@@ -14,7 +14,7 @@ const VariantBtn = ({
   onClick,
   classname,
   isLoading,
-  text,
+  label,
 }: Props) => {
   return (
     <button
@@ -23,7 +23,7 @@ const VariantBtn = ({
       onClick={onClick}
       className="flex justify-center items-center bg-teal-600 hover:bg-teal-700 p-2 rounded min-w-32 min-h-10 text-white transition duration-300"
     >
-      {isLoading ? <MiniLoader className="size-5" /> : <>{text}</>}
+      {isLoading ? <MiniLoader className="size-5" /> : <>{label}</>}
     </button>
   );
 };
