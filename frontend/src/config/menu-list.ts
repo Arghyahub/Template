@@ -96,7 +96,6 @@ class MenuUtil {
       menuItems = this.cloneMenuItems();
     }
 
-    console.log("Menu Items:", menuItems);
     const selectables = menuItems.map((menu) => {
       if (menu.type == "link") {
         return {
@@ -109,7 +108,6 @@ class MenuUtil {
           })),
         };
       } else {
-        console.log("menu.children", menu);
         const children = menu.children.map((child) => ({
           id: child.id,
           label: child.title,
@@ -127,7 +125,6 @@ class MenuUtil {
         };
       }
     });
-    console.log("Selectables:", selectables);
     return selectables;
   }
 
